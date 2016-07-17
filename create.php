@@ -14,10 +14,16 @@ require_once 'connect.php';
 		$mobile = $_POST['mobile'];
 		$company = $_POST['cmp_name'];
 		$designation = $_POST['designation'];
-		$c_addr = $_POST['c_addr'];
-		$sub_area = $_POST['sub_area'];
+		$c_addr1 = $_POST['c_addr1'];
+		$c_addr2 = $_POST['c_addr2'];
+		$c_addr3 = $_POST['c_addr3'];
+		$dob = $_POST['dob'];
+		$anniversary = $_POST['anniversary'];
+
 		$city = $_POST['city'];
 		$pc = $_POST['pincode'];
+		$country = $_POST['country'];
+
 		$fax = $_POST['fax'];
 		$source = $_POST['source'];
 		$src_desc = $_POST['src_desc'];
@@ -37,7 +43,7 @@ require_once 'connect.php';
 		{
 try{
 			
-			$add_query1 = "INSERT INTO person_details(\"fname\",\"lname\",\"phone\",\"email\",\"mobile\",\"inserted_at\",\"updated_at\",\"sal\") VALUES('$fname','$lname','$phone','$email','$mobile','$date','$date','$sal');";
+			$add_query1 = "INSERT INTO person_details(\"sal\",\"fname\",\"lname\",\"phone\",\"email\",\"mobile\",\"dob\",\"anniversary\",\"inserted_at\",\"updated_at\") VALUES('$sal','$fname','$lname','$phone','$email','$dob','$anniversary','$mobile','$date','$date');";
 		$add_result1 = pg_query($add_query1); 
 		if(!$add_result1)
 			break;
@@ -69,7 +75,7 @@ try{
 		$cmpid = pg_fetch_result($select_result4, 0, 0);
 
 
-		$add_query2 = "INSERT INTO address_details(\"pid\",\"cmpid\",\"c_addr\",\"sub_area\",\"city\",\"pincode\",\"inserted_at\",\"updated_at\") VALUES('$pid','$cmpid','$c_addr','$sub_area','$city','$pc','$date','$date');";
+		$add_query2 = "INSERT INTO address_details(\"pid\",\"cmpid\",\"c_addr1\",\"c_addr2\",\"c_addr3\",\"city\",\"pincode\",\"country\",\"inserted_at\",\"updated_at\") VALUES('$pid','$cmpid','$c_addr1','$c_addr2','$c_addr3','$city','$pc','$country','$date','$date');";
 		$add_result2 = pg_query($add_query2);
 		if(!$add_result2)
 		{	

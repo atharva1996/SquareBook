@@ -57,66 +57,82 @@ $i=0;
 </tr>
 <tr>
 	<td>9</td>
-	<td>Company Address</td>
+	<td>Address Line 1</td>
 </tr>
 <tr>
 	<td>10</td>
-	<td>Sub Area</td>
+	<td>Address Line 2</td>
 </tr>
 <tr>
 	<td>11</td>
-	<td>City</td>
+	<td>Address Line 3</td>
 </tr>
 <tr>
 	<td>12</td>
-	<td>Pincode</td>
+	<td>City</td>
 </tr>
 <tr>
 	<td>13</td>
-	<td>Phone</td>
+	<td>Pincode</td>
 </tr>
 <tr>
 	<td>14</td>
-	<td>Fax</td>
+	<td>Country</td>
 </tr>
 <tr>
 	<td>15</td>
-	<td>Email</td>
+	<td>Phone</td>
 </tr>
 <tr>
 	<td>16</td>
-	<td>Mobile</td>
+	<td>Fax</td>
 </tr>
 <tr>
 	<td>17</td>
-	<td>Art Event</td>
+	<td>Email</td>
 </tr>
 <tr>
 	<td>18</td>
-	<td>Book Event</td>
+	<td>Mobile</td>
 </tr>
 <tr>
 	<td>19</td>
-	<td>Food Promotion</td>
+	<td>Date of Birth</td>
 </tr>
 <tr>
 	<td>20</td>
-	<td>Alcohol Pairing</td>
+	<td>Anniversary Date</td>
 </tr>
 <tr>
 	<td>21</td>
-	<td>Fund Raiser</td>
+	<td>Art Event</td>
 </tr>
 <tr>
 	<td>22</td>
-	<td>Fashion Event</td>
+	<td>Book Event</td>
 </tr>
 <tr>
 	<td>23</td>
-	<td>Sports Event</td>
+	<td>Food Promotion</td>
 </tr>
 <tr>
 	<td>24</td>
+	<td>Alcohol Pairing</td>
+</tr>
+<tr>
+	<td>25</td>
+	<td>Fund Raiser</td>
+</tr>
+<tr>
+	<td>26</td>
+	<td>Fashion Event</td>
+</tr>
+<tr>
+	<td>27</td>
+	<td>Sports Event</td>
+</tr>
+<tr>
+	<td>28</td>
 	<td>VIP Event</td>
 </tr>
 

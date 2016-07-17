@@ -8,6 +8,7 @@ if(isset($_SESSION['name']))
         require_once 'dbconfig.php';
 
 }
+
 include 'uploadfile.php';
 ?>
 
@@ -29,6 +30,7 @@ include 'uploadfile.php';
 
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -56,9 +58,11 @@ $(document).ready(function(){
 	});
 	
 });
+
 </script>
  <style type="text/css">
- 	#margin
+ 
+    #margin
  	{
  		margin-left: 10px;
  	}
@@ -128,6 +132,7 @@ $(document).ready(function(){
     color: grey;
 }
 
+
  </style>
 
 </head>
@@ -147,7 +152,7 @@ $(document).ready(function(){
    
       <ul class="nav navbar-nav navbar-right">
       
-
+        <li><a href="userhome.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
         <li>
                         <li class="dropdown">
                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Upload File</b> <span class="caret"></span></a>
@@ -203,42 +208,43 @@ $(document).ready(function(){
         <table cellspacing="0" width="100%" id="example" class="table table-striped table-hover table-responsive">
         <thead>
 <tr>
-        						<th>edit</th>
-       							 <th>delete</th>
+        					       	<th>edit</th>
+       							  <th>delete</th>
        
-                                   <th>Salutation</th>
+                                   <th>Source</th> 
+                               <th>Source Description</th>
+                                    <th>Category</th>
+                                    <th>Salutation</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
-                                    
+                                    <th>Company</th>
+                                    <th>Designation</th>
                                     <th>Phone</th>
-                                   
+                                     <th>Fax</th>
                                     <th>Email</th>
                                     <th>Mobile</th>   
-                                   
-                                    <th>Company Name</th>
-                                    <th>Designation</th>
-                                    <th>Company Address</th>
-                                    <th>Sub Area</th>
+                                   <th>Date of Birth</th>
+                                   <th>Anniversary</th>
+                                    <th>Address 1</th>
+                                    <th>Address 2</th>
+                                    <th>Address 3</th>
                                     <th>City</th>
                                     <th>Pincode</th>
-                                    <th>Fax</th>
-                                    <th>Source Name</th>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Book Events</th>
-                                    <th>Art Events</th>
+                                    <th>Country</th>
+                                    <th>Art Event</th>
+                                    <th>Book Event</th>
+                                    <th>Fashion Event</th>
+                                    <th>VIP Event</th>
                                     <th>Food Promotion</th>
                                     <th>Alcohol Pairing</th>
                                     <th>Fund Raiser</th>
-                                    <th>Fashion Events</th>
-                                    <th>Sports Events</th>
-                                    <th>VIP Events</th>
+                                    <th>Sports Event</th>
         </tr>
         </thead>
         <tbody>
         <?php
-        
-       $stmt = $db_con->prepare("SELECT * from person_details,address_details,company_details,source_details,person_source,category_details,person_category,person_event,book_event_details,art_event_details,food_promo_details,alcohol_pairing_details,fund_raiser_details,fashion_event_details,sports_event_details,vip_event_details where company_details.cmpid = address_details.cmpid and person_details.pid = company_details.pid and person_source.sid = source_details.sid and person_details.pid = person_source.pid and person_details.pid=person_category.pid and person_category.catid = category_details.catid and person_details.pid = person_event.pid and book_event_details.bookid = person_event.bookid  and art_event_details.artid = person_event.artid and food_promo_details.foodid = person_event.foodid and alcohol_pairing_details.alcid = person_event.alcid and fund_raiser_details.fundid = person_event.fundid and fashion_event_details.fashionid = person_event.fashionid and sports_event_details.sportsid = person_event.sportsid and vip_event_details.vipid = person_event.vipid;");
+        $key = $_GET['key'];
+       $stmt = $db_con->prepare("SELECT * FROM temp WHERE \"src_name\" LIKE '%".$key."%' OR \"src_desc\" LIKE '%".$key."%' OR \"cat_name\" LIKE '%".$key."%' OR \"sal\" LIKE '%".$key."%' OR \"fname\" LIKE '%".$key."%' OR \"lname\" LIKE '%".$key."%' OR \"cmp_name\" LIKE '%".$key."%' OR \"designation\" LIKE '%".$key."%' OR \"phone\" LIKE '%".$key."%' OR \"fax\" LIKE '%".$key."%' OR \"email\" LIKE '%".$key."%' OR \"mobile\" LIKE '%".$key."%' OR \"dob\" LIKE '%".$key."%'  OR \"anniversary\" LIKE '%".$key."%' OR \"c_addr1\" LIKE '%".$key."%' OR \"c_addr2\" LIKE '%".$key."%' OR \"c_addr3\" LIKE '%".$key."%' OR \"city\" LIKE '%".$key."%' OR \"pincode\" LIKE '%".$key."%' OR \"country\" LIKE '%".$key."%' OR \"art_event\" LIKE '%".$key."%' OR \"book_event\" LIKE '%".$key."%'OR \"fashion_event\" LIKE '%".$key."%' OR \"vip_event\" LIKE '%".$key."%' OR \"food_promo\" LIKE '%".$key."%'OR \"alcohol_pairing\" LIKE '%".$key."%'OR \"fund_raiser\" LIKE '%".$key."%'OR \"sports_event\" LIKE '%".$key."%' ");
         $stmt->execute();
 		while($row=$stmt->fetch(PDO::FETCH_ASSOC))
 		{
@@ -251,30 +257,34 @@ $(document).ready(function(){
 			<td align="center"><a id="<?php echo $row['pid']; ?>" class="delete-link" href="#" title="Delete">
 			<img src="delete.png" width="20px" />
             </a></td>
-			<td><?php echo $row['sal']; ?></td>
-			<td><?php echo $row['fname']; ?></td>
-			<td><?php echo $row['lname']; ?></td>
-			<td><?php echo $row['phone']; ?></td>
-			<td><?php echo $row['email']; ?></td>
-			<td><?php echo $row['mobile']; ?></td>
-			<td><?php echo $row['cmp_name']; ?></td>
-			<td><?php echo $row['designation']; ?></td>
-			<td><?php echo $row['c_addr']; ?></td>
-			<td><?php echo $row['sub_area']; ?></td>
-			<td><?php echo $row['city']; ?></td>
-			<td><?php echo $row['pincode']; ?></td>
-			<td><?php echo $row['fax']; ?></td>
 			<td><?php echo $row['src_name']; ?></td>
 			<td><?php echo $row['src_desc']; ?></td>
 			<td><?php echo $row['cat_name']; ?></td>
-			<td><?php echo $row['book_event']; ?></td>
+			<td><?php echo $row['sal']; ?></td>
+			<td><?php echo $row['fname']; ?></td>
+			<td><?php echo $row['lname']; ?></td>
+			<td><?php echo $row['cmp_name']; ?></td>
+			<td><?php echo $row['designation']; ?></td>
+			<td><?php echo $row['phone']; ?></td>
+			<td><?php echo $row['fax']; ?></td>
+			<td><?php echo $row['email']; ?></td>
+			<td><?php echo $row['mobile']; ?></td>
+			<td><?php echo $row['dob']; ?></td>
+			<td><?php echo $row['anniversary']; ?></td>
+			<td><?php echo $row['c_addr1']; ?></td>
+			<td><?php echo $row['c_addr2']; ?></td>
+			<td><?php echo $row['c_addr3']; ?></td>
+			<td><?php echo $row['city']; ?></td>
+			<td><?php echo $row['pincode']; ?></td>
+			<td><?php echo $row['country']; ?></td>
 			<td><?php echo $row['art_event']; ?></td>
-			<td><?php echo $row['food_promo']; ?></td>
-			<td><?php echo $row['alcohol_pairing']; ?></td>
-			<td><?php echo $row['fund_raiser']; ?></td>
-			<td><?php echo $row['fashion_event'];?></td>
-			<td><?php echo $row['sports_event']; ?></td>
+			<td><?php echo $row['book_event'];?></td>
+			<td><?php echo $row['fashion_event']; ?></td>
 			<td><?php echo $row['vip_event']; ?></td>
+            <td><?php echo $row['food_promo']; ?></td>
+            <td><?php echo $row['alcohol_pairing']; ?></td>
+            <td><?php echo $row['fund_raiser']; ?></td>
+            <td><?php echo $row['sports_event']; ?></td>
 			
 			</tr>
 			<?php

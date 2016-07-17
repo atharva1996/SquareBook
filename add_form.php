@@ -44,6 +44,15 @@
             <td><input type='text' name='mobile' class='form-control' ></td>
         </tr>
         <tr>
+            <td>Date of Birth</td>
+            <td><input type='text' name='dob' class='form-control' ></td>
+        </tr>
+        <tr>
+            <td>Anniversary</td>
+            <td><input type='text' name='anniversary' class='form-control' ></td>
+        </tr>
+        
+        <tr>
             <td>Company Name</td>
             <td><input type='text' name='cmp_name' class='form-control' ></td>
         </tr>
@@ -52,12 +61,17 @@
             <td><input type='text' name='designation' class='form-control'  ></td>
         </tr>
         <tr>
-            <td>Company Address</td>
-            <td><input type='text' name='c_addr' class='form-control' ></td>
+            <td>Address 1</td>
+            <td><input type='text' name='c_addr1' class='form-control' ></td>
         </tr>
+
           <tr>
-            <td>Sub Area</td>
-            <td><input type='text' name='sub_area' class='form-control' ></td>
+            <td>Address 2</td>
+            <td><input type='text' name='c_addr2' class='form-control' ></td>
+        </tr>
+        <tr>
+            <td>Address 3</td>
+            <td><input type='text' name='c_addr3' class='form-control' ></td>
         </tr>
           <tr>
             <td>City</td>
@@ -67,7 +81,10 @@
             <td>Pincode</td>
             <td><input type='text' name='pincode' class='form-control' ></td>
         </tr>
-          
+          <tr>
+            <td>Country</td>
+            <td><input type='text' name='country' class='form-control' ></td>
+        </tr>
           <tr>
             <td>Fax</td>
             <td><input type='text' name='fax' class='form-control' ></td>

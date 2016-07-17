@@ -3,6 +3,6 @@ session_start();
 
 $deletefile = $_SESSION['file_dir'];
 unlink($deletefile);
-header('location:search_home2.php');
+header('location:userhome.php');
 
 ?>

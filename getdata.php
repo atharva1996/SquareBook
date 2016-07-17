@@ -7,6 +7,9 @@ include 'oops.php';
 include 'connect.php';
 
 date_default_timezone_set('Asia/Kolkata');
+$updated_rows = 0;
+$inserted_rows = 0;
+$lid = $_SESSION['lid'];
 $headers = $_SESSION['column_array'];
 $input_mapping = $_SESSION['input_array'];
 $target_file = $_SESSION['file_dir'];
@@ -30,8 +33,11 @@ $inputFileName = $target_file;
 
     $people = array();
 	for ($i=0;$i<$highestRow-1;$i++)
+	{
 		$people[$i] = new person;
-	
+		$people[$i]->set_lid($lid);
+	}
+
 	$final_people = array();
 	for($i=0;$i<$highestRow-1;$i++)
 		$final_people[$i] = new person;
@@ -73,51 +79,63 @@ $inputFileName = $target_file;
 				$people[$j]->set_designation($v);
 
 			else if ($input_mapping[$i]==9)
-				$people[$j]->set_cmp_addr($v);
+				$people[$j]->set_cmp_addr1($v);
 
 			else if ($input_mapping[$i]==10)
-				$people[$j]->set_sub_area($v);
+				$people[$j]->set_cmp_addr2($v);
 
 			else if ($input_mapping[$i]==11)
-				$people[$j]->set_city($v);
+				$people[$j]->set_cmp_addr3($v);
 
 			else if ($input_mapping[$i]==12)
-				$people[$j]->set_pc($v);
+				$people[$j]->set_city($v);
 
 			else if ($input_mapping[$i]==13)
-				$people[$j]->set_phone($v);
+				$people[$j]->set_pc($v);
 
 			else if ($input_mapping[$i]==14)
-				$people[$j]->set_fax($v);
+				$people[$j]->set_country($v);
 
 			else if ($input_mapping[$i]==15)
-				$people[$j]->set_email($v);
+				$people[$j]->set_phone($v);
 
 			else if ($input_mapping[$i]==16)
-				$people[$j]->set_mobile($v);
+				$people[$j]->set_fax($v);
 
 			else if ($input_mapping[$i]==17)
-				$people[$j]->set_art_event($v);
+				$people[$j]->set_email($v);
 
 			else if ($input_mapping[$i]==18)
-				$people[$j]->set_book_event($v);
+				$people[$j]->set_mobile($v);
 
 			else if ($input_mapping[$i]==19)
-				$people[$j]->set_food_promo($v);
+				$people[$j]->set_dob($v);
 
 			else if ($input_mapping[$i]==20)
-				$people[$j]->set_alcohol($v);
+				$people[$j]->set_anniv($v);
 
 			else if ($input_mapping[$i]==21)
-				$people[$j]->set_fund_raiser($v);
+				$people[$j]->set_art_event($v);
 
 			else if ($input_mapping[$i]==22)
-				$people[$j]->set_fashion_event($v);
+				$people[$j]->set_book_event($v);
 
 			else if ($input_mapping[$i]==23)
-				$people[$j]->set_sports_event($v);
+				$people[$j]->set_food_promo($v);
 
 			else if ($input_mapping[$i]==24)
+				$people[$j]->set_alcohol($v);
+
+			else if ($input_mapping[$i]==25)
+				$people[$j]->set_fund_raiser($v);
+
+			else if ($input_mapping[$i]==26)
+				$people[$j]->set_fashion_event($v);
+
+			else if ($input_mapping[$i]==27)
+				$people[$j]->set_sports_event($v);
+
+			else if ($input_mapping[$i]==28)
 				$people[$j]->set_vip_event($v);
 
 			
@@ -140,19 +158,19 @@ $inputFileName = $target_file;
 	$lname_array = array();
 	for($j=0;$j<$no_of_rows;$j++)
 	{
-		$fname_array[$j]= pg_fetch_result($result, $j, 2);	
+		$fname_array[$j]= pg_fetch_result($result, $j, 3);	
 		$fname_array[$j] = trim($fname_array[$j]);
 		$fname_array[$j] = strtolower($fname_array[$j]);
 
-		$lname_array[$j]= pg_fetch_result($result, $j, 3);	
+		$lname_array[$j]= pg_fetch_result($result, $j, 4);	
 		$lname_array[$j] = trim($lname_array[$j]);
 		$lname_array[$j] = strtolower($lname_array[$j]);
 
-		$email_array[$j]= pg_fetch_result($result, $j, 5);	
+		$email_array[$j]= pg_fetch_result($result, $j, 6);	
 		$email_array[$j] = trim($email_array[$j]);
 		$email_array[$j] = strtolower($email_array[$j]);
 
-		$mobile_array[$j]= pg_fetch_result($result, $j, 6);	
+		$mobile_array[$j]= pg_fetch_result($result, $j, 7);	
 		$mobile_array[$j] = trim($mobile_array[$j]);
 		$mobile_array[$j] = strtolower($mobile_array[$j]);
 		$mobile_rev[$j] = strrev($mobile_array[$j]);
@@ -175,7 +193,7 @@ $inputFileName = $target_file;
 		{
 			if($fname_array[$j] == $get_fname && $lname_array[$j] == $get_lname)
 			{
-				$people[$i]->set_flag(1);
+				$people[$i]->set_flag("1");
 				if($mobile_array[$j] == $get_mobile)
 				{
 				$select_query1 = "SELECT \"pid\" FROM person_details WHERE \"mobile\"='$get_mobile';";
@@ -251,20 +269,26 @@ $inputFileName = $target_file;
 
 	for ($i=0;$i<$highestRow-1;$i++)
 	{
-		if($people[$i]->get_source() == "" && $people[$i]->get_category() == "" && $people[$i]->get_company() == "" && $people[$i]->get_sal() == "" && $people[$i]->get_designation() == "" && $people[$i]->get_cmp_addr() == "" && $people[$i]->get_sub_area() == "" && $people[$i]->get_city() == "" && $people[$i]->get_pc() == "" && $people[$i]->get_phone() == "" && $people[$i]->get_fax() == "" && $people[$i]->get_art_event() == "" && $people[$i]->get_book_event() == "" && $people[$i]->get_food_promo() == "" && $people[$i]->get_alcohol() == "" && $people[$i]->get_fund_raiser() == "" && $people[$i]->get_fashion_event() == "" && $people[$i]->get_sports_event() == "" && $people[$i]->get_vip_event() == "" && $people[$i]->get_src_desc() == "")
+		if($people[$i]->get_source() == "" && $people[$i]->get_category() == "" && $people[$i]->get_company() == "" && $people[$i]->get_sal() == "" && $people[$i]->get_designation() == "" && $people[$i]->get_cmp_addr1() == "" && $people[$i]->get_cmp_addr2() == "" && $people[$i]->get_cmp_addr3() == "" && $people[$i]->get_dob() == "" && $people[$i]->get_anniv() == "" && $people[$i]->get_city() == "" && $people[$i]->get_pc() == ""  && $people[$i]->get_country() == "" && $people[$i]->get_phone() == "" && $people[$i]->get_fax() == "" && $people[$i]->get_art_event() == "" && $people[$i]->get_book_event() == "" && $people[$i]->get_food_promo() == "" && $people[$i]->get_alcohol() == "" && $people[$i]->get_fund_raiser() == "" && $people[$i]->get_fashion_event() == "" && $people[$i]->get_sports_event() == "" && $people[$i]->get_vip_event() == "" && $people[$i]->get_src_desc() == "")
 			continue;
 
 		else if($people[$i]->get_flag()== 0)
+		{
 			add($people[$i],$final_people[$i]);
+			$inserted_rows = $inserted_rows + 1;
+		}
 
 		else if($people[$i]->get_flag()!= 0)
+		{
 			update($people[$i],$result,$final_people[$i]);
-
+			$updated_rows = $updated_rows + 1;
+		}
 	}
 
 
 	function add($person,$final_person)
 	{
+		$final_person->set_lid($person->get_lid());
 		$final_person->set_source($person->get_source());
 		$final_person->set_category($person->get_category());
 		$final_person->set_company($person->get_company());
@@ -272,13 +296,17 @@ $inputFileName = $target_file;
 		$final_person->set_fname($person->get_fname());
 		$final_person->set_lname($person->get_lname());
 		$final_person->set_designation($person->get_designation());
-		$final_person->set_sub_area($person->get_sub_area());
+		$final_person->set_cmp_addr2($person->get_cmp_addr2());
+		$final_person->set_cmp_addr3($person->get_cmp_addr3());
 		$final_person->set_city($person->get_city());
+		$final_person->set_country($person->get_country());
 		$final_person->set_pc($person->get_pc());
 		$final_person->set_email($person->get_email());
 		$final_person->set_phone($person->get_phone());
 		$final_person->set_fax($person->get_fax());
 		$final_person->set_mobile($person->get_mobile());
+		$final_person->set_dob($person->get_dob());
+		$final_person->set_anniv($person->get_anniv());
 		$final_person->set_art_event($person->get_art_event());
 		$final_person->set_book_event($person->get_book_event());
 		$final_person->set_food_promo($person->get_food_promo());
@@ -287,10 +315,10 @@ $inputFileName = $target_file;
 		$final_person->set_fashion_event($person->get_fashion_event());
 		$final_person->set_sports_event($person->get_sports_event());
 		$final_person->set_vip_event($person->get_vip_event());
-		$final_person->set_cmp_addr($person->get_cmp_addr());
+		$final_person->set_cmp_addr1($person->get_cmp_addr1());
 		$final_person->set_src_desc($person->get_src_desc());
 
-
+		$lid = pg_escape_string($final_person->get_lid());
 		$source = pg_escape_string($final_person->get_source());
 		$category = pg_escape_string($final_person->get_category());
 		$company = pg_escape_string($final_person->get_company());
@@ -298,12 +326,14 @@ $inputFileName = $target_file;
 		$fname = pg_escape_string($final_person->get_fname());
 		$lname = pg_escape_string($final_person->get_lname());
 		$designation = pg_escape_string($final_person->get_designation());
-		$sub_area = pg_escape_string($final_person->get_sub_area());
+		$country = pg_escape_string($final_person->get_country());
 		$city = pg_escape_string($final_person->get_city());
 		$pc = pg_escape_string($final_person->get_pc());
 		$email = pg_escape_string($final_person->get_email());
 		$phone = pg_escape_string($final_person->get_phone());
 		$fax = pg_escape_string($final_person->get_fax());
+		$dob = pg_escape_string($final_person->get_dob());
+		$anniv = pg_escape_string($final_person->get_anniv());
 		$mobile = pg_escape_string($final_person->get_mobile());
 		$art_event = pg_escape_string($final_person->get_art_event());
 		$book_event = strtolower(pg_escape_string($final_person->get_book_event()));
@@ -313,12 +343,14 @@ $inputFileName = $target_file;
 		$fashion_event = strtolower(pg_escape_string($final_person->get_fashion_event()));
 		$sports_event = strtolower(pg_escape_string($final_person->get_sports_event()));
 		$vip_event = strtolower(pg_escape_string($final_person->get_vip_event()));
-		$c_addr = pg_escape_string($final_person->get_cmp_addr());
+		$c_addr1 = pg_escape_string($final_person->get_cmp_addr1());
+		$c_addr2 = pg_escape_string($final_person->get_cmp_addr2());
+		$c_addr3 = pg_escape_string($final_person->get_cmp_addr3());
 		$src_desc = pg_escape_string($final_person->get_src_desc());
 	
 		$t = explode(" ",microtime());
 		$date = date("m-d-y H:i:s",$t[1]).substr((string)$t[0],1,4);
-		$add_query1 = "INSERT INTO person_details(\"fname\",\"lname\",\"phone\",\"email\",\"mobile\",\"inserted_at\",\"updated_at\",\"sal\") VALUES('$fname','$lname','$phone','$email','$mobile','$date','$date','$sal');";
+		$add_query1 = "INSERT INTO person_details(\"lid\",\"sal\",\"fname\",\"lname\",\"phone\",\"email\",\"mobile\",\"dob\",\"anniversary\",\"inserted_at\",\"updated_at\") VALUES('$lid','$sal','$fname','$lname','$phone','$email','$mobile','$dob','$anniv','$date','$date');";
 		$add_result1 = pg_query($add_query1); 
 		if(!$add_result1)
 			return;
@@ -350,7 +382,7 @@ $inputFileName = $target_file;
 		$cmpid = pg_fetch_result($select_result4, 0, 0);
 
 
-		$add_query2 = "INSERT INTO address_details(\"pid\",\"cmpid\",\"c_addr\",\"sub_area\",\"city\",\"pincode\",\"inserted_at\",\"updated_at\") VALUES('$pid','$cmpid','$c_addr','$sub_area','$city','$pc','$date','$date');";
+		$add_query2 = "INSERT INTO address_details(\"pid\",\"cmpid\",\"c_addr1\",\"c_addr2\",\"c_addr3\",\"city\",\"pincode\",\"country\",\"inserted_at\",\"updated_at\") VALUES('$pid','$cmpid','$c_addr1','$c_addr2','$c_addr3','$city','$pc','$country','$date','$date');";
 		$add_result2 = pg_query($add_query2);
 		if(!$add_result2)
 		{	
@@ -531,12 +563,16 @@ $inputFileName = $target_file;
 		$person_fname = trim(strtolower($person->get_fname()));
 		$person_lname = trim(strtolower($person->get_lname()));
 		$person_designation = trim(strtolower($person->get_designation()));
-		$person_sub_area = trim(strtolower($person->get_sub_area()));
+		$person_cmp_addr2 = trim(strtolower($person->get_cmp_addr2()));
+		$person_cmp_addr3 = trim(strtolower($person->get_cmp_addr3()));
 		$person_city = trim(strtolower($person->get_city()));
 		$person_pc = trim(strtolower($person->get_pc()));
+		$person_dob = trim(strtolower($person->get_dob()));
+		$person_anniv = trim(strtolower($person->get_anniv()));
 		$person_email = trim(strtolower($person->get_email()));
 		$person_phone = trim(strtolower($person->get_phone()));
 		$person_fax = trim(strtolower($person->get_fax()));
+		$person_country = trim(strtolower($person->get_country()));
 		$person_mobile = trim(strtolower($person->get_mobile()));
 		$person_art_event = trim(strtolower($person->get_art_event()));
 		$person_book_event = trim(strtolower($person->get_book_event()));
@@ -547,7 +583,7 @@ $inputFileName = $target_file;
 		$person_sports_event = trim(strtolower($person->get_sports_event()));
 		$person_vip_event = trim(strtolower($person->get_vip_event()));
 		$person_src_desc = trim(strtolower($person->get_src_desc()));
-		$person_cmp_addr = trim(strtolower($person->get_cmp_addr()));
+		$person_cmp_addr1 = trim(strtolower($person->get_cmp_addr1()));
 		$pid = $person->get_pid();
 		$sid =  $person->get_sid();
 		$aid = $person->get_aid();
@@ -561,7 +597,7 @@ $inputFileName = $target_file;
 		$fashionid = $person->get_fashionid();
 		$sportsid = $person->get_sportsid();
 		$vipid = $person->get_vipid();*/
-
+		$final_person->set_lid($person->get_lid());
 		$final_person->set_source($person->get_source());
 		$final_person->set_category($person->get_category());
 		$final_person->set_company($person->get_company());
@@ -569,11 +605,14 @@ $inputFileName = $target_file;
 		$final_person->set_fname($person->get_fname());
 		$final_person->set_lname($person->get_lname());
 		$final_person->set_designation($person->get_designation());
-		$final_person->set_sub_area($person->get_sub_area());
+		$final_person->set_cmp_addr1($person->get_cmp_addr1());
 		$final_person->set_city($person->get_city());
 		$final_person->set_pc($person->get_pc());
+		$final_person->set_dob($person->get_dob());
+		$final_person->set_anniv($person->get_anniv());
 		$final_person->set_email($person->get_email());
 		$final_person->set_phone($person->get_phone());
+		$final_person->set_country($person->get_country());
 		$final_person->set_fax($person->get_fax());
 		$final_person->set_mobile($person->get_mobile());
 		$final_person->set_art_event($person->get_art_event());
@@ -585,7 +624,8 @@ $inputFileName = $target_file;
 		$final_person->set_sports_event($person->get_sports_event());
 		$final_person->set_vip_event($person->get_vip_event());
 		$final_person->set_src_desc($person->get_src_desc());
-		$final_person->set_cmp_addr($person->get_cmp_addr());
+		$final_person->set_cmp_addr2($person->get_cmp_addr2());
+		$final_person->set_cmp_addr3($person->get_cmp_addr3());
 		$final_person->set_pid($pid);
 		$final_person->set_sid($sid);
 		$final_person->set_aid($aid);
@@ -602,7 +642,7 @@ $inputFileName = $target_file;
 
 		$dbperson = new person;
 
-		$select_query1 = "SELECT \"sal\",\"fname\",\"lname\",\"phone\",\"email\",\"mobile\",\"sal\" FROM person_details WHERE \"pid\"='$pid';";
+		$select_query1 = "SELECT \"sal\",\"fname\",\"lname\",\"phone\",\"email\",\"mobile\",\"dob\",\"anniversary\" FROM person_details WHERE \"pid\"='$pid';";
 		$select_result1 = pg_query($select_query1);
 		$dbperson->set_sal(pg_fetch_result($select_result1, 0, 0));
 		$dbperson_sal = trim(strtolower($dbperson->get_sal()));
@@ -616,17 +656,26 @@ $inputFileName = $target_file;
 		$dbperson_email = trim(strtolower($dbperson->get_email()));
 		$dbperson->set_mobile(pg_fetch_result($select_result1, 0, 5));
 		$dbperson_mobile = trim($dbperson->get_mobile());
+		$dbperson->set_dob(pg_fetch_result($select_result1, 0, 6));
+		$dbperson_dob = trim($dbperson->get_dob());
+		$dbperson->set_anniv(pg_fetch_result($select_result1, 0, 7));
+		$dbperson_anniv = trim($dbperson->get_anniv());
 
-		$select_query2 = "SELECT \"c_addr\",\"sub_area\",\"city\",\"pincode\" FROM address_details WHERE \"aid\"='$aid';";
+
+		$select_query2 = "SELECT \"c_addr1\",\"c_addr2\",\"c_addr3\",\"city\",\"pincode\",\"country\" FROM address_details WHERE \"aid\"='$aid';";
 		$select_result2 = pg_query($select_query2);
-		$dbperson->set_cmp_addr(pg_fetch_result($select_result2, 0, 0));
-		$dbperson_cmp_addr = trim(strtolower($dbperson->get_cmp_addr()));
-		$dbperson->set_sub_area(pg_fetch_result($select_result2, 0, 1));
-		$dbperson_sub_area = trim(strtolower($dbperson->get_sub_area()));
-		$dbperson->set_city(pg_fetch_result($select_result2, 0, 2));
+		$dbperson->set_cmp_addr1(pg_fetch_result($select_result2, 0, 0));
+		$dbperson_cmp_addr1 = trim(strtolower($dbperson->get_cmp_addr1()));
+		$dbperson->set_cmp_addr2(pg_fetch_result($select_result2, 0, 1));
+		$dbperson_cmp_addr2 = trim(strtolower($dbperson->get_cmp_addr2()));
+		$dbperson->set_cmp_addr3(pg_fetch_result($select_result2, 0, 2));
+		$dbperson_cmp_addr3 = trim(strtolower($dbperson->get_cmp_addr3()));
+		$dbperson->set_city(pg_fetch_result($select_result2, 0, 3));
 		$dbperson_city = trim(strtolower($dbperson->get_city()));
-		$dbperson->set_pc(pg_fetch_result($select_result2, 0, 3));
+		$dbperson->set_pc(pg_fetch_result($select_result2, 0, 4));
 		$dbperson_pc = trim($dbperson->get_pc());
+		$dbperson->set_country(pg_fetch_result($select_result2, 0, 5));
+		$dbperson_country = trim($dbperson->get_country());
 
 		$select_query3 = "SELECT \"src_name\",\"src_desc\" FROM source_details WHERE \"sid\"='$sid';";
 		$select_result3 = pg_query($select_query3);
@@ -692,15 +741,6 @@ $inputFileName = $target_file;
 				$final_person->set_designation($final_designation);
 			}
 
-		if($person_sub_area == "" && $dbperson_sub_area!="")
-			$final_person->set_sub_area($dbperson->get_sub_area());
-
-		if($person_sub_area!=$dbperson_sub_area && $person_sub_area!="" && $dbperson_sub_area!="")
-			{
-				$final_sub_area = $person_sub_area." , ".$dbperson_sub_area;
-				$final_person->set_company($final_sub_area);
-			}
-
 		if($person_city == "" && $dbperson_city!="")
 			$final_person->set_city($dbperson->get_city());
 
@@ -728,6 +768,12 @@ $inputFileName = $target_file;
 				$final_person->set_phone($final_phone);
 			}	
 
+		if($person_dob == "" && $dbperson_dob!="")
+			$final_person->set_dob($dbperson->get_dob());
+
+		if($person_anniv == "" && $dbperson_anniv!="")
+			$final_person->set_anniv($dbperson->get_anniv());
+
 		if($person_fax == "" && $dbperson_fax!="")
 			$final_person->set_fax($dbperson->get_fax());
 
@@ -751,16 +797,45 @@ $inputFileName = $target_file;
 				$final_src_desc = $person_src_desc." , ".$dbperson_src_desc;
 				$final_person->set_src_desc($final_src_desc);
 			}
-		if($person_cmp_addr == "" && $dbperson_cmp_addr!="")
-			$final_person->set_cmp_addr($dbperson->get_cmp_addr());
 
-		if($person_cmp_addr!=$dbperson_cmp_addr && $person_cmp_addr!="" && $dbperson_cmp_addr!="")
+		if($person_cmp_addr1 == "" && $dbperson_cmp_addr1!="")
+			$final_person->set_cmp_addr1($dbperson->get_cmp_addr1());
+
+		if($person_cmp_addr1!=$dbperson_cmp_addr1 && $person_cmp_addr1!="" && $dbperson_cmp_addr1!="")
 			{
-				$final_cmp_addr = $person_cmp_addr." , ".$dbperson_cmp_addr;
-				$final_person->set_cmp_addr($final_cmp_addr);
+				$final_cmp_addr1 = $person_cmp_addr1." , ".$dbperson_cmp_addr1;
+				$final_person->set_cmp_addr1($final_cmp_addr1);
+			}
+
+		if($person_cmp_addr2 == "" && $dbperson_cmp_addr2!="")
+			$final_person->set_cmp_addr2($dbperson->get_cmp_addr2());
+
+		if($person_cmp_addr2!=$dbperson_cmp_addr2 && $person_cmp_addr2!="" && $dbperson_cmp_addr2!="")
+			{
+				$final_cmp_addr2 = $person_cmp_addr2." , ".$dbperson_cmp_addr2;
+				$final_person->set_cmp_addr2($final_cmp_addr2);
+			}
+
+		if($person_cmp_addr3 == "" && $dbperson_cmp_addr3!="")
+			$final_person->set_cmp_addr3($dbperson->get_cmp_addr3());
+
+		if($person_cmp_addr3!=$dbperson_cmp_addr3 && $person_cmp_addr3!="" && $dbperson_cmp_addr3!="")
+			{
+				$final_cmp_addr3 = $person_cmp_addr3." , ".$dbperson_cmp_addr3;
+				$final_person->set_cmp_addr3($final_cmp_addr3);
+			}
+
+		if($person_country == "" && $dbperson_country!="")
+			$final_person->set_country($dbperson->get_country());
+
+		if($person_country!=$dbperson_country && $person_country!="" && $dbperson_country!="")
+			{
+				$final_country= $person_country." , ".$dbperson_country;
+				$final_person->set_country($final_country);
 			}
 
 
+		$lid = $final_person->get_lid();
 		$source = trim(pg_escape_string($final_person->get_source()));
 		$category = trim(pg_escape_string($final_person->get_category()));
 		$company = trim(pg_escape_string($final_person->get_company()));
@@ -768,14 +843,18 @@ $inputFileName = $target_file;
 		$fname = trim(pg_escape_string($final_person->get_fname()));
 		$lname = trim(pg_escape_string($final_person->get_lname()));
 		$designation = trim(pg_escape_string($final_person->get_designation()));
-		$sub_area = trim(pg_escape_string($final_person->get_sub_area()));
 		$city = trim(pg_escape_string($final_person->get_city()));
 		$pc = trim(pg_escape_string($final_person->get_pc()));
 		$email = trim(pg_escape_string($final_person->get_email()));
 		$phone = trim(pg_escape_string($final_person->get_phone()));
+		$country = trim(pg_escape_string($final_person->get_country()));
 		$fax = trim(pg_escape_string($final_person->get_fax()));
+		$dob = trim(pg_escape_string($final_person->get_dob()));
+		$anniv = trim(pg_escape_string($final_person->get_anniv()));
 		$mobile = trim(pg_escape_string($final_person->get_mobile()));
-		$cmp_addr = trim(pg_escape_string($final_person->get_cmp_addr()));
+		$cmp_addr1 = trim(pg_escape_string($final_person->get_cmp_addr1()));
+		$cmp_addr2 = trim(pg_escape_string($final_person->get_cmp_addr2()));
+		$cmp_addr3 = trim(pg_escape_string($final_person->get_cmp_addr3()));
 		$src_desc = trim(pg_escape_string($final_person->get_src_desc()));
 
 		if($person_book_event!='' && $person_book_event!='no')
@@ -891,10 +970,10 @@ $inputFileName = $target_file;
 		$vip_event = pg_escape_string($final_person->get_vip_event());*/
 		$t = explode(" ",microtime());
 		$date = date("m-d-y H:i:s",$t[1]).substr((string)$t[0],1,4);
-		$merge_query1 = "UPDATE person_details SET(\"sal\",\"phone\",\"email\",\"mobile\",\"updated_at\") = ('$sal','$phone','$email','$mobile','$date') WHERE \"pid\" = '$pid';";
+		$merge_query1 = "UPDATE person_details SET(\"lid\",\"sal\",\"phone\",\"email\",\"mobile\",\"dob\",\"anniversary\",\"updated_at\") = ('$lid','$sal','$phone','$email','$mobile','$dob','$anniv','$date') WHERE \"pid\" = '$pid';";
 		$merge_query2 = "UPDATE source_details SET(\"src_name\",\"src_desc\",\"updated_at\") = ('$source','$src_desc','$date') WHERE \"sid\" = '$sid';";
 		$merge_query3 = "UPDATE company_details SET(\"cmp_name\",\"designation\",\"fax\",\"updated_at\") = ('$company','$designation','$fax','$date') WHERE \"cmpid\" = '$cmpid';";
-		$merge_query4 = "UPDATE address_details SET(\"c_addr\",\"sub_area\",\"city\",\"pincode\",\"updated_at\") = ('$cmp_addr','$sub_area','$city','$pc','$date') WHERE \"aid\" = '$aid';";
+		$merge_query4 = "UPDATE address_details SET(\"c_addr1\",\"c_addr2\",\"c_addr3\",\"city\",\"pincode\",\"country\",\"updated_at\") = ('$cmp_addr1','$cmp_addr2','$cmp_addr3','$city','$pc','$country','$date') WHERE \"aid\" = '$aid';";
 		$merge_query5 = "UPDATE category_details SET(\"cat_name\",\"updated_at\") = ('$category','$date') WHERE \"catid\" = '$catid';";
 		$merge_query6 = "UPDATE person_event SET(\"bookid\",\"artid\",\"foodid\",\"alcid\",\"fundid\",\"fashionid\",\"sportsid\",\"vipid\") = ('$bookid','$artid','$foodid','$alcid','$fundid','$fashionid','$sportsid','$vipid') WHERE \"pid\" = '$pid';";
 
@@ -930,13 +1009,13 @@ $inputFileName = $target_file;
  
 
 }
-
+echo "<script>alert('".$inserted_rows." rows were inserted and ".$updated_rows." rows were updated')</script>";
 unset($_SESSION['column_array']);
 unset($_SESSION['input_array']);
 unset($_SESSION['file_dir']);
-session_destroy();
+//session_destroy();
 //echo "ENDED";
-echo "<script>window.open('search_home2.php','_self')</script>";
+echo "<script>window.open('excelresult.php','_self')</script>";
 
 ?>
 

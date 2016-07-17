@@ -8,7 +8,11 @@ class person
 	var $fname = "";
 	var $lname = "";
 	var $designation = "";
-	var $sub_area = "";
+	var $cmp_addr2 = "";
+	var $cmp_addr3 = "";
+	var $country = "";
+	var $dob = "";
+	var $anniv = "";
 	var $city = "";
 	var $pc = "";
 	var $email = "";
@@ -24,7 +28,7 @@ class person
 	var $sports_event = "";
 	var $vip_event = "";
 	var $flag = ""; 
-	var $cmp_addr = "";
+	var $cmp_addr1 = "";
 	var $src_desc = "";
 	var $sid = "";
 	var $pid = "";
@@ -40,6 +44,11 @@ class person
 	var $sportsid = "";
 	var $vipid = "";
 	
+	
+	function set_lid($lid)
+	{
+		$this->lid = $lid;
+	}
 
 	function set_source($source)
 	{
@@ -77,9 +86,9 @@ class person
 	}
 
 
-	function set_sub_area($sub_area)
+	function set_cmp_addr2($cmp_addr2)
 	{
-		$this->sub_area = $sub_area;
+		$this->cmp_addr2 = $cmp_addr2;
 	}
 	
 	function set_city($city)
@@ -105,6 +114,16 @@ class person
 	function set_fax($fax)
 	{
 		$this->fax = $fax;
+	}
+
+	function set_dob($dob)
+	{
+		$this->dob = $dob;
+	}
+
+	function set_anniv($anniv)
+	{
+		$this->anniv = $anniv;
 	}
 
 	function set_mobile($mobile)
@@ -159,14 +178,24 @@ class person
 		$this->flag = $flag;
 	}
 
-	function set_cmp_addr($cmp_addr)
+	function set_cmp_addr1($cmp_addr1)
 	{
-		$this->cmp_addr = $cmp_addr;
+		$this->cmp_addr1 = $cmp_addr1;
+	}
+
+	function set_cmp_addr3($cmp_addr3)
+	{
+		$this->cmp_addr3 = $cmp_addr3;
 	}
 
 	function set_src_desc($src_desc)
 	{
 		$this->src_desc = $src_desc;
+	}
+
+	function set_country($country)
+	{
+		$this->country = $country;
 	}
 
 	function set_sid($sid)
@@ -224,6 +253,11 @@ class person
 	}
 	
 
+	function get_lid()
+	{
+		return $this->lid;
+	}
+
 	function get_source()
 	{
 		return $this->source;
@@ -260,15 +294,34 @@ class person
 	}
 
 
-	function get_sub_area()
-
+	function get_cmp_addr2()
 	{
-		return $this->sub_area ;
+		return $this->cmp_addr2;
+	}
+
+	function get_cmp_addr3()
+	{
+		return $this->cmp_addr3;
 	}
 
 	function get_city()
 	{
 		return $this->city;
+	}
+
+	function get_country()
+	{
+		return $this->country;
+	}
+
+	function get_dob()
+	{
+		return $this->dob;
+	}
+
+	function get_anniv()
+	{
+		return $this->anniv;
 	}
 
 	function get_pc()
@@ -341,11 +394,11 @@ class person
 		return $this->flag;
 	}
 
-	function get_cmp_addr()
+	function get_cmp_addr1()
 	{
-		return $this->cmp_addr;
+		return $this->cmp_addr1;
 	}
-	
+
 	function get_src_desc()
 	{
 		return $this->src_desc;

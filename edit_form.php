@@ -58,6 +58,14 @@ if($_GET['edit_id'])
             <td>Mobile</td>
             <td><input type='text' name='mobile' class='form-control' value='<?php echo $row['mobile']; ?>' ></td>
         </tr>
+         <tr>
+            <td>Date of Birth</td>
+            <td><input type='text' name='dob' class='form-control' value='<?php echo $row['dob']; ?>' ></td>
+        </tr>
+         <tr>
+            <td>Anniversary</td>
+            <td><input type='text' name='anniversary' class='form-control' value='<?php echo $row['Anniversary']; ?>' ></td>
+        </tr>
         <tr>
             <td>Company Name</td>
             <td><input type='text' name='cmp_name' class='form-control' value='<?php echo $row['cmp_name']; ?>' ></td>
@@ -67,13 +75,20 @@ if($_GET['edit_id'])
             <td><input type='text' name='designation' class='form-control' value='<?php echo $row['designation']; ?>' ></td>
         </tr>
         <tr>
-            <td>Company Address</td>
-            <td><input type='text' name='c_addr' class='form-control' value='<?php echo $row['c_addr']; ?>' ></td>
+            <td>Address 1</td>
+            <td><input type='text' name='c_addr1' class='form-control' value='<?php echo $row['c_addr1']; ?>' ></td>
         </tr>
-          <tr>
-            <td>Sub Area</td>
-            <td><input type='text' name='sub_area' class='form-control' value='<?php echo $row['sub_area']; ?>' ></td>
+         <tr>
+            <td>Address 2</td>
+            <td><input type='text' name='c_addr2' class='form-control' value='<?php echo $row['c_addr2']; ?>' ></td>
         </tr>
+
+         <tr>
+            <td>Address 3</td>
+            <td><input type='text' name='c_addr3' class='form-control' value='<?php echo $row['c_addr3']; ?>' ></td>
+        </tr>
+
+          
           <tr>
             <td>City</td>
             <td><input type='text' name='city' class='form-control' value='<?php echo $row['city']; ?>' ></td>
@@ -82,7 +97,10 @@ if($_GET['edit_id'])
             <td>Pincode</td>
             <td><input type='text' name='pincode' class='form-control' value='<?php echo $row['pincode']; ?>' ></td>
         </tr>
-          
+          <tr>
+            <td>Country</td>
+            <td><input type='text' name='country' class='form-control' value='<?php echo $row['country']; ?>' ></td>
+        </tr>
           <tr>
             <td>Fax</td>
             <td><input type='text' name='fax' class='form-control' value='<?php echo $row['fax']; ?>' ></td>
