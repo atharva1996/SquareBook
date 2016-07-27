@@ -64,7 +64,7 @@ if($_GET['edit_id'])
         </tr>
          <tr>
             <td>Anniversary</td>
-            <td><input type='text' name='anniversary' class='form-control' value='<?php echo $row['Anniversary']; ?>' ></td>
+            <td><input type='text' name='anniversary' class='form-control' value='<?php echo $row['anniv']; ?>' ></td>
         </tr>
         <tr>
             <td>Company Name</td>
