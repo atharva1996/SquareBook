@@ -21,9 +21,13 @@ require_once 'dbconfig.php';
 		$mobile = $_POST['mobile'];
 		$cmp_name = $_POST['cmp_name'];
 		$designation = $_POST['designation'];
-		$c_addr = $_POST['c_addr'];
-		$sub_area = $_POST['sub_area'];
+		$c_addr1 = $_POST['c_addr1'];
+		$c_addr2 = $_POST['c_addr2'];
+		$c_addr3 = $_POST['c_addr3'];
+		$dob = $_POST['dob'];
+		$anniv = $_POST['anniv'];
 		$city = $_POST['city'];
+		$country = $_POST['country'];
 		$pincode = $_POST['pincode'];
 		$fax = $_POST['fax'];
 		$src_name = $_POST['src_name'];
@@ -38,11 +42,11 @@ require_once 'dbconfig.php';
 		$sports_event = trim(strtolower($_POST['sports_event']));
 		$vip_event = trim(strtolower($_POST['vip_event']));
 
-		$stmt1 = $db_con->prepare("UPDATE person_details SET(\"sal\",\"fname\",\"lname\",\"phone\",\"email\",\"mobile\",\"updated_at\") = ('$sal','$fname','$lname','$phone','$email','$mobile','$date') WHERE \"pid\"='$pid'");
+		$stmt1 = $db_con->prepare("UPDATE person_details SET(\"sal\",\"fname\",\"lname\",\"phone\",\"email\",\"mobile\",\"dob\",\"anniv\",\"updated_at\") = ('$sal','$fname','$lname','$phone','$email','$mobile','$dob','$anniv','$date') WHERE \"pid\"='$pid'");
 
 		$stmt2 = $db_con->prepare("UPDATE company_details SET (\"cmp_name\",\"designation\",\"fax\",\"updated_at\") = ('$cmp_name','$designation','$fax','$date') WHERE \"cmpid\"='$cmpid'");	
 		
-		$stmt3 = $db_con->prepare("UPDATE address_details SET (\"c_addr\",\"sub_area\",\"city\",\"pincode\",\"updated_at\") = ('$c_addr','$sub_area','$city','$pincode','$date') WHERE \"aid\"='$aid'");	
+		$stmt3 = $db_con->prepare("UPDATE address_details SET (\"c_addr1\",\"c_addr2\",\"c_addr3\",\"city\",\"pincode\",\"country\",\"updated_at\") = ('$c_addr','$sub_area','$city','$pincode','$date') WHERE \"aid\"='$aid'");	
 
 		$stmt4 = $db_con->prepare("UPDATE source_details SET (\"src_name\",\"src_desc\",\"updated_at\") = ('$src_name','$src_des','$date') WHERE \"sid\"='$sid'");
 
